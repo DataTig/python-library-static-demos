@@ -1,0 +1,35 @@
+name: Build and Deploy
+on:
+  # Run on any change
+  push:
+  # Run regularly so changes in source repositories are updated
+  schedule:
+    - cron:  '0 12 * * *'
+
+
+jobs:
+  build_deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.12
+        architecture: x64
+    - name: Install DataTig
+      run: "pip install git+https://github.com/DataTig/DataTig.git@main#egg=datatig"
+    - name: Build
+      run: "./build.sh"
+    - name: Upload Artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: "./output"
+      if: github.ref == 'refs/heads/main'
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4
+      if: github.ref == 'refs/heads/main'
