@@ -1,0 +1,21 @@
+html, body {
+    padding: 0;
+    margin: 0;
+}
+
+:root {
+  --main-background-color: #a7d9e8;
+}
+
+
+header {
+    background: var(--main-background-color);
+    padding: 10px 0;
+
+}
+
+.content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 5px;
+}
