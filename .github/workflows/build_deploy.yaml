@@ -24,6 +24,8 @@ jobs:
       run: "pip install git+https://github.com/DataTig/DataTig.git@main#egg=datatig"
     - name: Build
       run: "./build.sh"
+      env:
+         DATATIG_BASE_URL: https://python-library-static-demos.datatig.com
     - name: Upload Artifact
       uses: actions/upload-pages-artifact@v3
       with:

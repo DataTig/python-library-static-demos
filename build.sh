@@ -29,9 +29,9 @@ fi
 
 echo "Build org-id-register"
 mkdir -p output/org-id-register/branch
-python -m datatig.cli build gitrepos/org-id-register/  --staticsiteoutput output/org-id-register/branch/main --staticsiteurl=/org-id-register/branch/main
+python -m datatig.cli build gitrepos/org-id-register/  --staticsiteoutput output/org-id-register/branch/main --staticsiteurl=$DATATIG_BASE_URL/org-id-register/branch/main
 
 echo "Build datatig-website"
 mkdir -p output/datatig-website/branch
-python -m datatig.cli build gitrepos/datatig-website/  --staticsiteoutput output/datatig-website/branch/main --staticsiteurl=/datatig-website/branch/main
-python -m datatig.cli versionedbuild gitrepos/datatig-website/  --allbranches --defaultref main --staticsiteoutput output/datatig-website/versioned --staticsiteurl=/datatig-website/versioned
+python -m datatig.cli build gitrepos/datatig-website/  --staticsiteoutput output/datatig-website/branch/main --staticsiteurl=$DATATIG_BASE_URL/datatig-website/branch/main
+python -m datatig.cli versionedbuild gitrepos/datatig-website/  --allbranches --defaultref main --staticsiteoutput output/datatig-website/versioned --staticsiteurl=$DATATIG_BASE_URL/datatig-website/versioned
