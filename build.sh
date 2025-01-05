@@ -9,6 +9,12 @@ if [ -d gitrepos/org-id-register ]; then
   cd ../..
 else
   git clone --branch main https://github.com/org-id/register.git gitrepos/org-id-register
+  cd gitrepos/org-id-register
+  # This for loop is from https://stackoverflow.com/a/4754797
+  for branch in $(git branch --all | grep '^\s*remotes'| egrep --invert-match '(:?HEAD|main)$'); do
+    git branch --track "${branch##*/}" "$branch"
+  done
+  cd ../..
 fi
 
 if [ -d gitrepos/datatig-website ]; then
@@ -30,6 +36,7 @@ fi
 echo "Build org-id-register"
 mkdir -p output/org-id-register/branch
 python -m datatig.cli build gitrepos/org-id-register/  --staticsiteoutput output/org-id-register/branch/main --staticsiteurl=$DATATIG_BASE_URL/org-id-register/branch/main
+python -m datatig.cli versionedbuild gitrepos/org-id-register/  --allbranches --defaultref main --staticsiteoutput output/org-id-register/versioned --staticsiteurl=$DATATIG_BASE_URL/org-id-register/versioned
 
 echo "Build datatig-website"
 mkdir -p output/datatig-website/branch
