@@ -1,44 +1,35 @@
 #!/bin/bash
 
-echo "Clone/update data repositories"
 mkdir -p gitrepos
 
-if [ -d gitrepos/org-id-register ]; then
-  cd gitrepos/org-id-register
-  git pull
-  cd ../..
-else
-  git clone --branch main https://github.com/org-id/register.git gitrepos/org-id-register
-  cd gitrepos/org-id-register
-  # This for loop is from https://stackoverflow.com/a/4754797
-  for branch in $(git branch --all | grep '^\s*remotes'| egrep --invert-match '(:?HEAD|main)$'); do
-    git branch --track "${branch##*/}" "$branch"
-  done
-  cd ../..
-fi
+checkout() {
+  echo "Checkout ${1}"
+  if [ -d gitrepos/${1} ]; then
+    cd gitrepos/${1}
+    git pull
+    # Note this only updates the current branch, not any new ones.
+    # But as this is only used in local dev at the moment we can live with that.
+    cd ../..
+  else
+    git clone --branch ${3} ${2} gitrepos/${1}
+    cd gitrepos/${1}
+    # This for loop is from https://stackoverflow.com/a/4754797
+    for branch in $(git branch --all | grep '^\s*remotes'| egrep --invert-match ${4}); do
+      git branch --track "${branch##*/}" "$branch"
+    done
+    cd ../..
+  fi
+}
 
-if [ -d gitrepos/datatig-website ]; then
-  cd gitrepos/datatig-website
-  # Note this only updates the current branch, not any new ones.
-  # But as this is only used in local dev at the moment we can live with that.
-  git pull
-  cd ../..
-else
-  git clone --branch main https://github.com/DataTig/datatig.github.io.git gitrepos/datatig-website
-  cd gitrepos/datatig-website
-  # This for loop is from https://stackoverflow.com/a/4754797
-  for branch in $(git branch --all | grep '^\s*remotes'| egrep --invert-match '(:?HEAD|main)$'); do
-    git branch --track "${branch##*/}" "$branch"
-  done
-  cd ../..
-fi
+build() {
+  echo "Build ${1}"
+  mkdir -p output/${1}/branch
+  python -m datatig.cli build gitrepos/${1}/  --staticsiteoutput output/${1}/branch/${2} --staticsiteurl=$DATATIG_BASE_URL/${1}/branch/${2}
+  python -m datatig.cli versionedbuild gitrepos/${1}/  --allbranches --defaultref ${2} --staticsiteoutput output/${1}/versioned --staticsiteurl=$DATATIG_BASE_URL/${1}/versioned
+}
 
-echo "Build org-id-register"
-mkdir -p output/org-id-register/branch
-python -m datatig.cli build gitrepos/org-id-register/  --staticsiteoutput output/org-id-register/branch/main --staticsiteurl=$DATATIG_BASE_URL/org-id-register/branch/main
-python -m datatig.cli versionedbuild gitrepos/org-id-register/  --allbranches --defaultref main --staticsiteoutput output/org-id-register/versioned --staticsiteurl=$DATATIG_BASE_URL/org-id-register/versioned
+checkout datatig-website https://github.com/DataTig/datatig.github.io.git main '(:?HEAD|main)$'
+checkout org-id-register https://github.com/org-id/register.git main '(:?HEAD|main)$'
 
-echo "Build datatig-website"
-mkdir -p output/datatig-website/branch
-python -m datatig.cli build gitrepos/datatig-website/  --staticsiteoutput output/datatig-website/branch/main --staticsiteurl=$DATATIG_BASE_URL/datatig-website/branch/main
-python -m datatig.cli versionedbuild gitrepos/datatig-website/  --allbranches --defaultref main --staticsiteoutput output/datatig-website/versioned --staticsiteurl=$DATATIG_BASE_URL/datatig-website/versioned
+build datatig-website main
+build org-id-register main
