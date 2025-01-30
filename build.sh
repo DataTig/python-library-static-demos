@@ -30,6 +30,8 @@ build() {
 
 checkout datatig-website https://github.com/DataTig/datatig.github.io.git main '(:?HEAD|main)$'
 checkout org-id-register https://github.com/org-id/register.git main '(:?HEAD|main)$'
+checkout oc4ids-registry https://github.com/OpenDataServices/oc4ids-registry.git live '(:?HEAD|live)$'
 
 build datatig-website main
 build org-id-register main
+build oc4ids-registry live
