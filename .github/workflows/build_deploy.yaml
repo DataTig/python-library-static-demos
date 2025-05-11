@@ -5,6 +5,7 @@ on:
   # Run regularly so changes in source repositories are updated
   schedule:
     - cron:  '0 12 * * *'
+  workflow_dispatch:
 
 
 jobs:
