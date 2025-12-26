@@ -33,9 +33,9 @@ build() {
 checkout datatig-website https://github.com/DataTig/datatig.github.io.git main '(:?HEAD|main)$'
 checkout org-id-register https://github.com/org-id/register.git main '(:?HEAD|main)$'
 checkout oc4ids-registry https://github.com/OpenDataServices/oc4ids-registry.git live '(:?HEAD|live)$'
-checkout teacaketech-scot-website https://github.com/TeacakeTech/teacaketech-scot-website.git main '(:?HEAD|main)$'
+checkout opentechcalendar-data https://github.com/TeacakeTech/opentechcalendar-data.git main '(:?HEAD|main)$'
 
 build datatig-website main ""
 build org-id-register main ""
 build oc4ids-registry live ""
-build teacaketech-scot-website main src
+build opentechcalendar-data main ""
