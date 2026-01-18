@@ -34,8 +34,10 @@ checkout datatig-website https://github.com/DataTig/datatig.github.io.git main '
 checkout org-id-register https://github.com/org-id/register.git main '(:?HEAD|main)$'
 checkout oc4ids-registry https://github.com/OpenDataServices/oc4ids-registry.git live '(:?HEAD|live)$'
 checkout opentechcalendar-data https://github.com/TeacakeTech/opentechcalendar-data.git main '(:?HEAD|main)$'
+checkout staticpipes-website https://github.com/TeacakeTech/staticpipes-site.git main '(:?HEAD|main)$'
 
 build datatig-website main "" "src"
 build org-id-register main "" ""
 build oc4ids-registry live "" ""
 build opentechcalendar-data main "" ""
+build staticpipes-website main "" "src"
