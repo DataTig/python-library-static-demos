@@ -26,8 +26,8 @@ checkout() {
 build() {
   echo "Build ${1}"
   mkdir -p output/${1}/branch
-  python -m datatig.cli build gitrepos/${1}/${3}  --staticsiteoutput output/${1}/branch/${2} --staticsiteurl=$DATATIG_BASE_URL/${1}/branch/${2}
-  python -m datatig.cli versionedbuild gitrepos/${1}/${3}  --allbranches --defaultref ${2} --staticsiteoutput output/${1}/versioned --staticsiteurl=$DATATIG_BASE_URL/${1}/versioned
+  python -m datatig.cli build gitrepos/${1}/${3}/${4}  --staticsiteoutput output/${1}/branch/${2} --staticsiteurl=$DATATIG_BASE_URL/${1}/branch/${2}
+  python -m datatig.cli versionedbuild gitrepos/${1}/${3}/${4}  --allbranches --defaultref ${2} --staticsiteoutput output/${1}/versioned --staticsiteurl=$DATATIG_BASE_URL/${1}/versioned
 }
 
 checkout datatig-website https://github.com/DataTig/datatig.github.io.git main '(:?HEAD|main)$'
@@ -35,7 +35,7 @@ checkout org-id-register https://github.com/org-id/register.git main '(:?HEAD|ma
 checkout oc4ids-registry https://github.com/OpenDataServices/oc4ids-registry.git live '(:?HEAD|live)$'
 checkout opentechcalendar-data https://github.com/TeacakeTech/opentechcalendar-data.git main '(:?HEAD|main)$'
 
-build datatig-website main ""
-build org-id-register main ""
-build oc4ids-registry live ""
-build opentechcalendar-data main ""
+build datatig-website main "" "src"
+build org-id-register main "" ""
+build oc4ids-registry live "" ""
+build opentechcalendar-data main "" ""
